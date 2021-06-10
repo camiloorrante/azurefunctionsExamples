@@ -51,7 +51,7 @@ namespace Company.Function
             //container name
             string containerName = "recipes";
 
-            // Create the container and return a container client object
+            // get a container client object
             BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
 
             string fileName = "recipe" + Guid.NewGuid().ToString() + ".txt";
@@ -66,11 +66,10 @@ namespace Company.Function
                 try
                 {
                     sw.Write(recipe);
-                    sw.Flush();//otherwise you are risking empty stream
+                    sw.Flush();
                     ms.Seek(0, SeekOrigin.Begin);
 
-                    // Test and work with the stream here. 
-                    // If you need to start back at the beginning, be sure to Seek again.
+                    // upload file to blob
                     await blobClient.UploadAsync(ms, true);
                 }
                 finally
